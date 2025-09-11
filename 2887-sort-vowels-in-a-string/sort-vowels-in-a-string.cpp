@@ -1,24 +1,36 @@
 class Solution {
 public:
     string sortVowels(string s) {
-        string vstr = "";
+        unordered_map<char, int> mp;
+
         for (char ch : s) {
-            if (ch == 'A' || ch == 'E' || ch == 'I' || ch == 'O' || ch == 'U' ||
-                ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
-                vstr += ch;
+            if (isvowel(ch)) {
+                mp[ch]++;
             }
         }
-        sort(vstr.begin(), vstr.end());
-        int j = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s[i] == 'A' || s[i] == 'E' || s[i] == 'I' || s[i] == 'O' ||
-                s[i] == 'U' || s[i] == 'a' || s[i] == 'e' || s[i] == 'i' ||
-                s[i] == 'o' || s[i] == 'u') {
 
-                s[i] = vstr[j];
-                j++;
+        int j = 0;
+        string temp = "AEIOUaeiou";
+
+        for (int i = 0; i < s.size(); i++) {
+            if (isvowel(s[i])) {
+                while (mp[temp[j]] == 0) {
+                    j++;
+                }
+                s[i] = temp[j];
+                mp[temp[j]]--;
             }
         }
         return s;
+    }
+
+private:
+    bool isvowel(char ch) {
+        ch = tolower(ch);
+
+        if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            return true;
+        }
+        return false;
     }
 };
