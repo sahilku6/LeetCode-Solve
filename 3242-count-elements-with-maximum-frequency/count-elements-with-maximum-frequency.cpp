@@ -2,27 +2,18 @@ class Solution {
 public:
     int maxFrequencyElements(vector<int>& nums) {
         unordered_map<int, int> freq;
+        int maxFreq = 0;
+
         for (int num : nums) {
             freq[num]++;
+            maxFreq = max(maxFreq, freq[num]);
         }
 
-        priority_queue<int> pq;
+        int count = 0;
+        for (auto num : freq) {
+            if (num.second == maxFreq) count++;
+        }
 
-        for (auto [first, second] : freq) {
-            pq.push(second);
-        }
-        int first = pq.top();
-        int sum = first;
-        pq.pop();
-        while (!pq.empty()) {
-            if (first == pq.top()) {
-                first = pq.top();
-                sum += first;
-                pq.pop();
-            } else {
-                break;
-            }
-        }
-        return sum;
+        return count * maxFreq;
     }
 };
