@@ -2,44 +2,42 @@ class Solution {
 public:
     string fractionToDecimal(int numerator, int denominator) {
         if (numerator == 0) return "0";
-        
-        string res;
-        
+
+        string result;
+
         // Handle sign
-        if ((numerator < 0) ^ (denominator < 0)) res += "-";
-        
-        // Convert to long long to prevent overflow
-        long long n = llabs((long long)numerator);
-        long long d = llabs((long long)denominator);
-        
+        if ((numerator < 0) ^ (denominator < 0))
+            result += "-";
+
+        // Work with positive values using long long
+        long long absNumerator = llabs((long long)numerator);
+        long long absDenominator = llabs((long long)denominator);
+
         // Integer part
-        long long integerPart = n / d;
-        res += to_string(integerPart);
-        
-        long long remainder = n % d;
-        if (remainder == 0) return res; // No fractional part
-        
-        res += ".";
-        
-        // Map remainder -> position in result string
-        unordered_map<long long, int> remainderMap;
-        
-        while (remainder) {
-            if (remainderMap.count(remainder)) {
-                // Insert '(' at the first occurrence of repeating remainder
-                res.insert(remainderMap[remainder], "(");
-                res += ")";
+        long long intDiv = absNumerator / absDenominator;
+        result += to_string(intDiv);
+
+        long long remain = absNumerator % absDenominator;
+        if (remain == 0) return result;
+
+        result += ".";
+        unordered_map<long long, int> mp;  // remainder → index
+
+        while (remain != 0) {
+            if (mp.count(remain)) {
+                result.insert(mp[remain], "(");
+                result += ")";
                 break;
             }
-            
-            // Store remainder position
-            remainderMap[remainder] = res.size();
-            
-            remainder *= 10;
-            res += to_string(remainder / d);
-            remainder %= d;
+
+            mp[remain] = result.length();
+
+            remain *= 10;
+            int digit = remain / absDenominator;
+            result += to_string(digit);
+            remain %= absDenominator;
         }
-        
-        return res;
+
+        return result;
     }
 };
