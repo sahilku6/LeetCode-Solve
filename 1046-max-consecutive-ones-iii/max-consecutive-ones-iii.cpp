@@ -11,8 +11,8 @@ public:
 
             if (nums[right] == 0)
                 noOfZeros++;
-                
-            while (noOfZeros > k) {
+
+            if (noOfZeros > k) {
                 if (nums[left] == 0) {
                     noOfZeros--;
                 }
