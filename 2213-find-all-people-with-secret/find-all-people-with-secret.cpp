@@ -1,6 +1,7 @@
 class Solution {
 public:
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
+        // sort by time
         sort(meetings.begin(), meetings.end(),
              [](auto &a, auto &b) {
                  return a[2] < b[2];
@@ -14,6 +15,7 @@ public:
         while (i < meetings.size()) {
             int time = meetings[i][2];
 
+            // collect all meetings at this time
             vector<pair<int,int>> cur;
             int j = i;
             while (j < meetings.size() && meetings[j][2] == time) {
@@ -21,6 +23,7 @@ public:
                 j++;
             }
 
+            // brute-force propagation within SAME time
             bool changed = true;
             while (changed) {
                 changed = false;
