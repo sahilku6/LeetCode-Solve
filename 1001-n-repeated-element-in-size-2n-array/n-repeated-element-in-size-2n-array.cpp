@@ -6,7 +6,7 @@ public:
 
         for (int x : nums) {
             mp[x]++;
-            if (mp[x] == n) {
+            if (mp[x] > 1) {
                 return x;
             }
         }
